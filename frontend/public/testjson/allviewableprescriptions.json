@@ -1,0 +1,60 @@
+{
+  "my_prescriptions": [
+    {
+      "id": 1,
+      "user": "JohnDoe",
+      "name": "Ibuprofen",
+      "dosage": "200mg",
+      "frequency": "twice daily",
+      "duration": "10 days",
+      "start_date": "Feb 3, 2020",
+      "end_date": "Feb 13, 2020",
+      "next_dose": "Feb 3, 2020 12:00:00 AM",
+      "allow_users": [],
+      "active": true
+    },
+    {
+      "id": 2,
+      "user": "JohnDoe",
+      "name": "Aspirin",
+      "dosage": "81mg",
+      "frequency": "once daily",
+      "duration": "30 days",
+      "start_date": "Feb 3, 2020",
+      "end_date": "Mar 3, 2020",
+      "next_dose": "Mar 2, 2020 6:30:00 AM",
+      "allow_users": [],
+      "active": true
+    },
+    {
+      "id": 3,
+      "user": "JohnDoe",
+      "name": "Amoxicillin",
+      "dosage": "500mg",
+      "frequency": "three times daily",
+      "duration": "7 days",
+      "start_date": "Feb 3, 2020",
+      "end_date": "Feb 10, 2020",
+      "next_dose": "Feb 8, 2020 6:30:00 AM",
+      "allow_users": [],
+      "active": true
+    }
+  ],
+  "other_prescriptions": [
+    {
+      "id": 9,
+      "user": "TravisScott",
+      "name": "Tetrodotoxin B",
+      "dosage": "1mg",
+      "frequency": "once daily",
+      "duration": "30 days",
+      "start_date": "Feb 3, 2020",
+      "end_date": "Mar 3, 2020",
+      "next_dose": "Mar 2, 2020 6:30:00 AM",
+      "allow_users": [
+        "JohnDoe"
+      ],
+      "active": true
+    }
+  ]
+}
