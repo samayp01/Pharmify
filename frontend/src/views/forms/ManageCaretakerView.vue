@@ -40,7 +40,6 @@
     data() {
       return {
         name: '',
-        name2: '',
         caretakers: [],
         error: null
       }
