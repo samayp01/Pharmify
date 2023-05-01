@@ -62,6 +62,5 @@ INSERT INTO `medicine` (`med_name`) VALUES ('Acetaminophen'),('Advil'), ('Aleve'
 ('Zocor');
 
 
-CREATE USER 'nodejs'@'%' IDENTIFIED BY 'password';
-GRANT ALL ON *.* TO 'nodejs'@'%';
-
+CREATE USER 'user'@'%' IDENTIFIED BY 'password';
+GRANT ALL ON *.* TO 'user'@'%';
