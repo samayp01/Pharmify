@@ -54,9 +54,6 @@ h1 {
 <template>
   <div class="header">
     <h1 class="home" title="Dashboard" v-on:click="home">🏠</h1>
-    <!--div class="settings" title="Settings" v-on:click="settings">
-        <img src="/favicon.ico" alt="Settings">
-    </div-->
     <div class="logout" title="Log Out" v-on:click="logout">
         <img src="/exit.png" alt="Logout">
     </div>
