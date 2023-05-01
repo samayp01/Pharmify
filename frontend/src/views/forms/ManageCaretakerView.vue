@@ -3,31 +3,23 @@
       <NavSection />
       <OfflinePopup />
       <div class="text-center">
-        <h1>Add Caretaker</h1>
+        <h1>My Caretakers</h1>
       </div>
-          <form class="text-center" @submit.prevent="addCaretaker">
-            <div class="form-group">
-              <label>Name</label><br>
-              <input class="form-control" type="text" v-model="name" required>
-            </div>
-            <br>
-            <br>
-            <button class="btn btn-success" type="submit">Submit</button>
-            <p class="text-danger" v-if="error">{{ error }}</p>
-          </form>
-          <br>
-          <br>
-          <div class="text-center">
-
-        <h1>Delete Caretaker</h1>
-      </div>
-      <ul>
+      <form class="text-center" @submit.prevent="addCaretaker">
+        <div class="form-group">
+          <label>Username</label><br>
+          <input class="form-control" type="text" v-model="name" required>
+          <button class="btn btn-success" type="submit">+</button>
+        </div>
+        <p class="text-danger" v-if="error">{{ error }}</p>
+      </form>
+      <ul v-if="hasCaretakers">
         <li v-for="(ct, index) in caretakers" v-bind:key="index" :value="ct.usr_username">
           {{ ct.usr_username }}
           <button class="delete-user" @click="deleteCaretaker(ct.usr_username)">✖</button>
         </li>
       </ul>
-        
+      <p v-else class="text-center">No caretakers assigned.</p>
     </div>
   </template>
   
@@ -51,6 +43,11 @@
         name2: '',
         caretakers: [],
         error: null
+      }
+    },
+    computed: {
+      hasCaretakers() {
+        return this.caretakers.length > 0;
       }
     },
     mounted() {
