@@ -14,7 +14,8 @@
       </div>
       <div class="section-content" v-show="sections[1].opened">
         <div class="prescription-list">
-          <PrescriptionCard class="card-item" v-on:click="viewSinglePrescription(prescription)" v-for="prescription in prescriptiondata" :key="prescription.id" :prescription="prescription" />
+          <PrescriptionCard class="card-item" v-on:click="viewSinglePrescription(prescription)" 
+            v-for="prescription in filtered_prescriptiondata" :key="prescription.id" :prescription="prescription"/>
         </div>
 
         <button class="btn btn-primary" v-on:click="addPrescription">Add Prescription</button><br>
@@ -35,7 +36,8 @@
       </div>
       <div class="section-content" v-show="sections[2].opened">
         <div class="prescription-list">
-          <PrescriptionCard class="card-item" v-on:click="viewSinglePrescription(prescription)" v-for="prescription in caretakerprescriptiondata" :key="prescription.id" :prescription="prescription" />
+          <PrescriptionCard class="card-item" v-on:click="viewSinglePrescription(prescription)" 
+            v-for="prescription in filtered_caretakerprescriptiondata" :key="prescription.id" :prescription="prescription"/>
         </div>
       </div>
     </div>
@@ -59,7 +61,6 @@ export default {
   },
   mounted() {
     console.log('Loading prescriptions.');
-
     axios.get(`${ENDPOINT}/prescriptions`)
       .then(response => {
         if(response.status === 200) {
@@ -87,12 +88,29 @@ export default {
   },
   data() {
     return {
-      prescriptiondata: {},
-      caretakerprescriptiondata: {},
+      prescriptiondata: [],
+      caretakerprescriptiondata: [],
       sections: {
         1: { opened: true },  // My Prescriptions Collapsible Section
         2: { opened: true }   // Others' Prescriptions Collapsible Section
       }
+    }
+  },
+  computed: {
+    
+    filtered_prescriptiondata() {
+      return this.prescriptiondata.filter(prescription => {
+        const now = new Date();
+        let end_date = new Date(prescription.pre_end_date);
+        return now <= end_date;
+      });
+    },
+    filtered_caretakerprescriptiondata() {
+      return this.caretakerprescriptiondata.filter(prescription => {
+        const now = new Date();
+        let end_date = new Date(prescription.pre_end_date);
+        return now <= end_date;
+      });
     }
   },
   methods: {
