@@ -13,10 +13,11 @@
         <span v-else>-</span>
       </div>
       <div class="section-content" v-show="sections[1].opened">
-        <div class="prescription-list">
+        <div v-if="hasPrescriptions" class="prescription-list">
           <PrescriptionCard class="card-item" v-on:click="viewSinglePrescription(prescription)" 
             v-for="prescription in filtered_prescriptiondata" :key="prescription.id" :prescription="prescription"/>
         </div>
+        <p v-else class="text-center">No prescriptions. Click 'Add Prescription' to get started.</p>
 
         <button class="btn btn-primary" v-on:click="addPrescription">Add Prescription</button><br>
         <br>
@@ -35,10 +36,11 @@
         <span v-else>-</span>
       </div>
       <div class="section-content" v-show="sections[2].opened">
-        <div class="prescription-list">
+        <div v-if="hasCaretakerPrescriptions" class="prescription-list">
           <PrescriptionCard class="card-item" v-on:click="viewSinglePrescription(prescription)" 
             v-for="prescription in filtered_caretakerprescriptiondata" :key="prescription.id" :prescription="prescription"/>
         </div>
+        <p v-else class="text-center">No prescriptions. You will see the prescriptions of those that designate you as a caretaker here.</p>
       </div>
     </div>
 
@@ -97,7 +99,6 @@ export default {
     }
   },
   computed: {
-    
     filtered_prescriptiondata() {
       return this.prescriptiondata.filter(prescription => {
         const now = new Date();
@@ -111,6 +112,12 @@ export default {
         let end_date = new Date(prescription.pre_end_date);
         return now <= end_date;
       });
+    },
+    hasPrescriptions() {
+      return this.prescriptiondata.length > 0;
+    },
+    hasCaretakerPrescriptions() {
+      return this.caretakerprescriptiondata.length > 0;
     }
   },
   methods: {
