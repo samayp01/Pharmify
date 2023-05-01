@@ -5,8 +5,7 @@
       <div class="text-center">
         <h1>Add Caretaker</h1>
       </div>
-  
-          <form class="text-center" @submit.prevent="submitForm">
+          <form class="text-center" @submit.prevent="addCaretaker">
             <div class="form-group">
               <label>Name</label><br>
               <input class="form-control" type="text" v-model="name" required>
@@ -22,19 +21,12 @@
 
         <h1>Delete Caretaker</h1>
       </div>
-  
-          <form class="text-center" @submit.prevent="submitForm2">
-            <div class="form-group">
-              <label>Name</label><br>
-              <select class="form-control" v-model="name2" required>
-                <option v-for="(ct, index) in caretakers" v-bind:key="index" :value="ct.usr_username">{{ct.usr_username}}</option>
-              </select>
-            </div>
-            <br>
-            <br>
-            <button class="btn btn-success" type="submit">Submit</button>
-          </form>
-        
+      <ul>
+        <li v-for="(ct, index) in caretakers" v-bind:key="index" :value="ct.usr_username">
+          {{ ct.usr_username }}
+          <button class="delete-user" @click="deleteCaretaker(ct.usr_username)">✖</button>
+        </li>
+      </ul>
         
     </div>
   </template>
@@ -89,7 +81,7 @@
       });
     },
     methods: {
-      submitForm() {
+      addCaretaker() {
         const name = this.name.trim();
         if(name == '') {
           alert('Please fill in all required fields');
@@ -104,7 +96,7 @@
         .then(response => {
           if(response.status === 200) {
             console.log('New caretaker added');
-            this.$router.push('/dashboard');
+            window.location.reload();
           } else {
             this.error = "Caretaker could not be added"
             console.log('Error adding caretaker');
@@ -116,24 +108,16 @@
         });
 
       },
-      submitForm2() {
-        const newName = this.name2.trim();
-        if(newName == '') {
-          alert('Please fill in all required fields');
-          return;
-        }
-  
-        // TODO: more form validation
-        console.log(newName);
+      deleteCaretaker(deleteName) {
         axios.delete(`${ENDPOINT}/users/caretaker/`, {
           data: {
-            name: newName
+            name: deleteName
           }
         })
         .then(response => {
           if(response.status === 200) {
             console.log('Caretaker deleted');
-            this.$router.push('/dashboard');
+            window.location.reload();
           } else {
             console.log('Error deleting caretaker');
           }
