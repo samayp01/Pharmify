@@ -1,31 +1,15 @@
 {
-    "name": "Prescriptions R Us",
-    "short_name": "PRUs",
+    "name": "Pharmify",
+    "short_name": "P+",
     "scope": "/",
     "start_url": "/",
     "display": "standalone",
     "theme_color": "#d3d3d3",
     "background_color": "#f1f1f1",
     "icons": [
-        {
-            "src": "/img/favicon-16x16.png",
-            "sizes": "16x16",
-            "type": "image/png"
-        }, 
-        {
-            "src": "/img/favicon-32x32.png",
-            "sizes": "32x32",
-            "type": "image/png"
-        },
-        {
-            "src": "/img/android-chrome-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "/img/android-chrome-256x256.png",
-            "sizes": "256x256",
-            "type": "image/png"
-        }
+      {
+        "src": "/img/pill.png",
+        "type": "image/png"
+      }
     ]
 }
