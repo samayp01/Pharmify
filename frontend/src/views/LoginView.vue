@@ -66,8 +66,8 @@ export default {
       .then(response => {
         if(response.status === 200 && response.data.token) {
           console.log('Login Successful');
-          localStorage.setItem('token', response.data.token);
-          localStorage.setItem('username', response.data.user);
+          localStorage.setItem('jwt', response.data.token);
+          localStorage.setItem('user', response.data.user);
           this.$router.push('/dashboard');
         } else {
           console.log('Login Failed');
