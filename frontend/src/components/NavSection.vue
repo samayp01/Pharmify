@@ -4,10 +4,8 @@
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-align: center;
-  border-bottom: 3px solid #ddd;
   padding: 20px;
   margin-bottom: 20px;
-  background-color: rgb(165, 203, 194);
   display: flex;
   justify-content: space-between;
   align-items: center;
