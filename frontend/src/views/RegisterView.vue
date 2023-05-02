@@ -1,43 +1,43 @@
 <template>
-    <div id="container" class="col-lg-3 text-center row justify-content-center">
-      <OfflinePopup />
-      <h1>Register</h1>
-      <p class="register-link">
-        Have an account? <router-link to="/login">Login</router-link>
-      </p>
-      <form @submit.prevent="onSubmit" method="POST">
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input name="username" type="text" class="form-control" :class="{'username-taken': usernameTaken}" v-model="username">
-        </div>
-        <div class="form-group">
-          <label for="firstname">First Name</label>
-          <input name="firstname" type="text" class="form-control" v-model="firstname">
-        </div>
-        <div class="form-group">
-          <label for="lastname">Last Name</label>
-          <input name="lastname" type="text" class="form-control" v-model="lastname">
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input name="email" type="text" class="form-control" v-model="email">
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label><br>
-          <input :type="showPassword ? 'text' : 'password'" name="password" class="form-control" :class="{'login-failed': loginFailed}" v-model="password">
-        </div>
-        <div class="form-group">
-          <label for="password2">Retype Password</label>
-          <input :type="showPassword ? 'text' : 'password'" name="password2" class="form-control" :class="{'login-failed': loginFailed}" v-model="password2">
-        </div>
-        <div class="form-check d-flex justify-content-center">
-          <input class="form-check-input" type="checkbox" id="show-password-check" v-model="showPassword">
-          <label class="form-check-label" for="show-password-check">Show Password</label>
-        </div>
-        <button type="submit" class="btn btn-primary">Register</button>
-        <p class="text-danger" v-if="error">{{ error }}</p>
-      </form>
-    </div>
+  <div id="container" class="col-lg-3 text-center row justify-content-center">
+    <OfflinePopup />
+    <h1>Register</h1>
+    <p class="register-link">
+      Have an account? <router-link to="/login">Login</router-link>
+    </p>
+    <form @submit.prevent="onSubmit" method="POST">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input name="username" type="text" class="form-control" :class="{'username-taken': usernameTaken}" v-model="username">
+      </div>
+      <div class="form-group">
+        <label for="firstname">First Name</label>
+        <input name="firstname" type="text" class="form-control" v-model="firstname">
+      </div>
+      <div class="form-group">
+        <label for="lastname">Last Name</label>
+        <input name="lastname" type="text" class="form-control" v-model="lastname">
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input name="email" type="text" class="form-control" v-model="email">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label><br>
+        <input :type="showPassword ? 'text' : 'password'" name="password" class="form-control" :class="{'login-failed': loginFailed}" v-model="password">
+      </div>
+      <div class="form-group">
+        <label for="password2">Retype Password</label>
+        <input :type="showPassword ? 'text' : 'password'" name="password2" class="form-control" :class="{'login-failed': loginFailed}" v-model="password2">
+      </div>
+      <div class="form-check d-flex justify-content-center">
+        <input class="form-check-input" type="checkbox" id="show-password-check" v-model="showPassword">
+        <label class="form-check-label" for="show-password-check">Show Password</label>
+      </div>
+      <button type="submit" class="btn btn-primary">Register</button>
+      <p class="text-danger" v-if="error">{{ error }}</p>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -172,7 +172,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 h1 {
   font-size: 25px;
 }
@@ -181,7 +181,9 @@ h1 {
   padding: 30px;
   border-radius: 10px;
   margin: auto;
+  margin-top: 10vh;
   background-color: #d9e9e9;
+  max-width: 90%;
   box-shadow: 0px 6px 9px rgba(0, 0, 0, 0.15);
 }
 
@@ -199,6 +201,10 @@ h1 {
 
 .username-taken {
   border-color: orangered;
+}
+
+.form-check {
+  margin-bottom: 20px;
 }
 
 </style>

@@ -87,7 +87,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 
 h1 {
   font-size: 25px;
@@ -97,7 +97,9 @@ h1 {
   padding: 30px;
   border-radius: 10px;
   margin: auto;
+  margin-top: 25vh;
   background-color: #d9e9e9;
+  max-width: 90%;
   box-shadow: 0px 6px 9px rgba(0, 0, 0, 0.15);
 }
 
@@ -111,6 +113,10 @@ h1 {
 
 .login-failed {
   border-color: orangered;
+}
+
+.form-check {
+  margin-bottom: 20px;
 }
 
 </style>
