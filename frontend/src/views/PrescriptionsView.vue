@@ -1,47 +1,38 @@
 <template>
   <div>
     <NavSection />
-    <div class="text-center">
-      <h1>Prescriptions</h1>
-    </div>
-    
-
-    <div class="section-header">
-      <div class="header" v-on:click="toggleSection(1)">
-        My Prescriptions
-        <span v-if="!sections[1].opened">+</span>
-        <span v-else>-</span>
-      </div>
-      <div class="section-content" v-show="sections[1].opened">
-        <div v-if="hasPrescriptions" class="prescription-list">
-          <PrescriptionCard class="card-item" v-on:click="viewSinglePrescription(prescription)" 
-            v-for="prescription in filtered_prescriptiondata" :key="prescription.id" :prescription="prescription"/>
-        </div>
-        <p v-else class="text-center">No prescriptions. Click 'Add Prescription' to get started.</p>
-
-        <button class="btn btn-primary" v-on:click="addPrescription">Add Prescription</button><br>
-        <br>
-        <button class="btn btn-info" v-on:click="viewPrescriptionHistory">View Prescription History</button><br>
-        <br>
-        <button class="btn btn-info" v-on:click="manageCaretaker">Manage Caretaker</button><br>
-      </div>
+    <div class="tab-menu">
+      <button id="my-prescriptions-btn" class="tab-item" @click="setActiveTab('my-prescriptions')" 
+        :class="{ 'active': activeTab === 'my-prescriptions' }">
+          My Meds 
+          <span v-if="hasPrescriptions">{{ numPrescriptions }}</span>
+      </button>
+      <button id="recipient-prescriptions-btn" class="tab-item" @click="setActiveTab('recipient-prescriptions')" 
+        :class="{ 'active': activeTab === 'recipient-prescriptions' }">
+          Care Recipients' Meds 
+          <span v-if="hasCaretakerPrescriptions">{{ numCaretakerPrescription }}</span>
+      </button>
     </div>
 
-    <br>
+    <div id="my-prescriptions" class="tabcontent text-center" v-show="activeTab === 'my-prescriptions'">
+      <div v-if="hasPrescriptions" class="prescription-list">
+        <PrescriptionCard class="card-item" v-on:click="viewSinglePrescription(prescription)" 
+          v-for="prescription in filtered_prescriptiondata" :key="prescription.id" :prescription="prescription"/>
+      </div>
+      <p v-else class="text-center">No prescriptions. Click 'Add Prescription' to get started.</p>
+      <button class="btn btn-primary" v-on:click="addPrescription">Add Prescription</button><br>
+      <br>
+      <button class="btn btn-info" v-on:click="viewPrescriptionHistory">View Prescription History</button><br>
+      <br>
+      <button class="btn btn-info" v-on:click="manageCaretaker">Manage Caretaker</button><br>
+    </div>
 
-    <div class="section-header">
-      <div class="header" v-on:click="toggleSection(2)">
-        Care Recipients' Prescriptions
-        <span v-if="!sections[2].opened">+</span>
-        <span v-else>-</span>
+    <div id="recipient-prescriptions" class="tabcontent text-center" v-show="activeTab === 'recipient-prescriptions'">
+      <div v-if="hasCaretakerPrescriptions" class="prescription-list">
+        <PrescriptionCard class="card-item" v-on:click="viewSinglePrescription(prescription)" 
+          v-for="prescription in filtered_caretakerprescriptiondata" :key="prescription.id" :prescription="prescription"/>
       </div>
-      <div class="section-content" v-show="sections[2].opened">
-        <div v-if="hasCaretakerPrescriptions" class="prescription-list">
-          <PrescriptionCard class="card-item" v-on:click="viewSinglePrescription(prescription)" 
-            v-for="prescription in filtered_caretakerprescriptiondata" :key="prescription.id" :prescription="prescription"/>
-        </div>
-        <p v-else class="text-center">No prescriptions. You will see the prescriptions of those that designate you as a caretaker here.</p>
-      </div>
+      <p v-else class="text-center">No prescriptions. You will see the prescriptions of those that designate you as a caretaker here.</p>
     </div>
 
   </div>
@@ -62,6 +53,8 @@ export default {
     NavSection
   },
   mounted() {
+    this.setActiveTab('my-prescriptions');
+
     console.log('Loading prescriptions.');
     axios.get(`${ENDPOINT}/prescriptions`)
       .then(response => {
@@ -92,10 +85,7 @@ export default {
     return {
       prescriptiondata: [],
       caretakerprescriptiondata: [],
-      sections: {
-        1: { opened: true },  // My Prescriptions Collapsible Section
-        2: { opened: true }   // Others' Prescriptions Collapsible Section
-      }
+      activeTab: 'my-prescriptions'
     }
   },
   computed: {
@@ -121,8 +111,11 @@ export default {
     }
   },
   methods: {
-    toggleSection(index) {
-      this.sections[index].opened = !this.sections[index].opened;
+    numPrescriptions() {
+      return this.prescriptiondata.length;
+    },
+    numCaretakerPrescription() {
+      return this.caretakerprescriptiondata.length;
     },
     addPrescription() {
       this.$router.push('/add/prescription');
@@ -135,12 +128,58 @@ export default {
     },
     manageCaretaker() {
       this.$router.push('/manage/caretaker');
+    },
+    setActiveTab(tab) {
+      document.getElementById(this.activeTab + '-btn').style.backgroundColor = 'inherit';
+      this.activeTab = tab;
+      document.getElementById(tab + '-btn').style.backgroundColor = '#6e9f9f';
     }
   }
 }
 </script>
 
 <style scoped>
+
+.tab-menu {
+  overflow: hidden;
+  background-color: #d9e9e9;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  max-width: 300px;
+  padding: 0px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.tab-item {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  background-color: #d9e9e9;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  user-select: none;
+}
+
+.tab-item:active {
+  background-color: #6e9f9f;
+}
+
+.tab-item:not(:active):hover {
+  background-color: #accecc;
+}
+
+.tabcontent {
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #d9e9e9;
+  border-top: none;
+  margin: 0px 25px 25px 25px;
+}
 
 .text-center {
   margin-bottom: 50px;
@@ -154,39 +193,16 @@ export default {
 .card-item:click {
   background-color: #d2d2ea;
 }
-.section-header {
-  background-color: #8694a2;
-  color: white;
-  padding: 5px;
-  border-radius: 10px;
-  margin-left: 2%;
-  margin-right: 2%;
-  text-align: center;
-  outline: none;
-  font-size: 20px;
-  cursor: pointer;
-  user-select: none;
-  transition: 0.5s ease;
-}
-
-.section-header:active .section-header:hover {
-  background-color: #555;
-  transition: 0.5s ease;
-}
-
-.section-content {
-  margin-top: 8px;
-  padding: 30px;
-  border-radius: 10px;
-  transition: 0.5s ease;
-  color: black;
-  background-color: #f1f1f1;
-
-}
 
 span {
-  float: right;
-  margin-left: 5px;
+  color: white;
+  background-color: #6e9f9f;
+  padding: 3px;
+  border-radius: 10px;
+}
+
+span:active {
+  background-color: inherit;
 }
 
 </style>
