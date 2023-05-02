@@ -137,7 +137,7 @@ export default {
 
       if(name == '' || dosage == '' || frequency == '' || start_date == null ||
           end_date == null || description == '') {
-        alert('Please fill in all required fields');
+        this.error = "Please fill out all fields";
         return;
       }
 

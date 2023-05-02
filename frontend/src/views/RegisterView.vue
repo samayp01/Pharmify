@@ -1,49 +1,48 @@
 <template>
     <div id="container" class="col-lg-3 text-center row justify-content-center">
-        <HeaderSection />
-        <OfflinePopup />
-        <h1>Register</h1>
-        <p class="register-link">
-          Have an account? <router-link to="/login">Login</router-link>
-        </p>
-        <form @submit.prevent="onSubmit" method="POST">
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input name="username" type="text" class="form-control" :class="{'username-taken': usernameTaken}" v-model="username">
-          </div>
-          <div class="form-group">
-            <label for="firstname">First Name</label>
-            <input name="firstname" type="text" class="form-control" v-model="firstname">
-          </div>
-          <div class="form-group">
-            <label for="lastname">Last Name</label>
-            <input name="lastname" type="text" class="form-control" v-model="lastname">
-          </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input name="email" type="text" class="form-control" v-model="email">
-          </div>
-          <div class="form-group">
-            <label for="password">Password</label><br>
-            <input :type="showPassword ? 'text' : 'password'" name="password" class="form-control" :class="{'login-failed': loginFailed}" v-model="password">
-          </div>
-          <div class="form-group">
-            <label for="password2">Retype Password</label>
-            <input :type="showPassword ? 'text' : 'password'" name="password2" class="form-control" :class="{'login-failed': loginFailed}" v-model="password2">
-          </div>
-          <div class="form-check d-flex justify-content-center">
-            <input class="form-check-input" type="checkbox" id="show-password-check" v-model="showPassword">
-            <label class="form-check-label" for="show-password-check">Show Password</label>
-          </div>
-          <button type="submit" class="btn btn-primary">Register</button>
-        </form>
+      <OfflinePopup />
+      <h1>Register</h1>
+      <p class="register-link">
+        Have an account? <router-link to="/login">Login</router-link>
+      </p>
+      <form @submit.prevent="onSubmit" method="POST">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input name="username" type="text" class="form-control" :class="{'username-taken': usernameTaken}" v-model="username">
+        </div>
+        <div class="form-group">
+          <label for="firstname">First Name</label>
+          <input name="firstname" type="text" class="form-control" v-model="firstname">
+        </div>
+        <div class="form-group">
+          <label for="lastname">Last Name</label>
+          <input name="lastname" type="text" class="form-control" v-model="lastname">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input name="email" type="text" class="form-control" v-model="email">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label><br>
+          <input :type="showPassword ? 'text' : 'password'" name="password" class="form-control" :class="{'login-failed': loginFailed}" v-model="password">
+        </div>
+        <div class="form-group">
+          <label for="password2">Retype Password</label>
+          <input :type="showPassword ? 'text' : 'password'" name="password2" class="form-control" :class="{'login-failed': loginFailed}" v-model="password2">
+        </div>
+        <div class="form-check d-flex justify-content-center">
+          <input class="form-check-input" type="checkbox" id="show-password-check" v-model="showPassword">
+          <label class="form-check-label" for="show-password-check">Show Password</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+        <p class="text-danger" v-if="error">{{ error }}</p>
+      </form>
     </div>
 </template>
 
 <script>
 
 import axios from 'axios'
-import HeaderSection from '../components/HeaderSection.vue'
 import OfflinePopup from '../components/OfflinePopup.vue'
 
 const ENDPOINT = '/api';
@@ -51,7 +50,6 @@ const ENDPOINT = '/api';
 export default {
   name: 'RegisterView',
   components: {
-    HeaderSection,
     OfflinePopup
   },
   data () {
@@ -64,24 +62,24 @@ export default {
       password2: '',
       showPassword: false,
       loginFailed: false,
-      usernameTaken: false
+      usernameTaken: false,
+      error: null
     }
   },
   methods: {
     onSubmit () {
-      console.log('login attempt...');
-
       const username = this.username.trim();
       const firstname = this.firstname.trim();
       const lastname = this.lastname.trim();
       const email = this.email.trim();
       const password = this.password.trim();
       const password2 = this.password2.trim();
+      this.error = null;
 
       if(username === '' || password === '' || password2 === '' ||
             firstname === '' || lastname === '' || email === '') {
         
-        console.log("One or more fields are empty");
+        this.error = 'Please fill out all fields';
         this.username = '';
         this.password = '';
         this.password2 = '';
@@ -91,7 +89,7 @@ export default {
       }
 
       if(this.password != this.password2) {
-        alert("Passwords do not match");
+        this.error = 'Passwords do not match';
         this.password = '';
         this.password2 = '';
         this.usernameTaken = false;
@@ -101,7 +99,7 @@ export default {
 
       // check that a string is made up of only characters
       if(!/^[a-zA-Z]+$/.test(firstname)) {
-        alert("First name must be made up of only characters");
+        this.error = 'First name must be made up of only characters';
         this.firstname = '';
         this.usernameTaken = false;
         this.loginFailed = true;
@@ -109,24 +107,22 @@ export default {
       }
 
       // check that a string is made up of only characters
-      if(!/^[a-zA-Z]+$/.test(firstname)) {
-        alert("First name must be made up of only characters");
+      if(!/^[a-zA-Z]+$/.test(lastname)) {
+        this.error = 'Last name must be made up of only characters';
         this.firstname = '';
         this.usernameTaken = false;
         this.loginFailed = true;
         return;
       }
 
-      // TODO email regex
-      /*
-      if(false) {
-        alert("Email is not valid");
+      // validate email address
+      if(!/\S+@\S+\.\S+/.test(email)) {
+        this.error = 'Invalid email address';
         this.email = '';
         this.usernameTaken = false;
         this.loginFailed = true;
         return;
       }
-      */
 
       axios.post(`${ENDPOINT}/auth/register`, {
         username: this.username,
@@ -137,13 +133,14 @@ export default {
       })
       .then(response => {
         if(response.status === 200) {
+          this.error = null;
           console.log('Registration successful!');
           this.loginFailed = false;
           this.usernameTaken = false;
           this.$router.push('/login');
         }
         else if(response.status === 409) {
-          console.log('Username already taken');
+          this.error = 'Username already taken';
           this.usernameTaken = true;
           this.loginFailed = false;
           this.username = '';
@@ -152,7 +149,7 @@ export default {
           return;
         }
         else {
-          console.log('Registration failed');
+          this.error = 'Registration failed';
           this.loginFailed = true;
           this.usernameTaken = false;
         }
@@ -166,10 +163,9 @@ export default {
         this.email = '';
       })
       .catch(error => {
+        this.error = 'Registration failed';
         console.log(`failed: ${error}`);
       });
-
-      console.log('Registration completed.');
     }
   }
 };

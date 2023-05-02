@@ -80,7 +80,7 @@
       addCaretaker() {
         const name = this.name.trim();
         if(name == '') {
-          alert('Please fill in all required fields');
+          this.name = '';
           return;
         }
   
@@ -91,11 +91,9 @@
         })
         .then(response => {
           if(response.status === 200) {
-            console.log('New caretaker added');
             window.location.reload();
           } else {
             this.error = "Caretaker could not be added"
-            console.log('Error adding caretaker');
           }
         })
         .catch(error => {

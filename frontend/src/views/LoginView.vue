@@ -1,34 +1,32 @@
 <template>
-    <div id="container" class="col-lg-3 text-center row justify-content-center">
-      <HeaderSection />
-      <OfflinePopup />
-      <h1>Login</h1>
-      <p class="register-link">
-        Don't have an account? <router-link to="/register">Register</router-link>
-      </p>
-      <form ref="loginForm" @submit.prevent="onSubmit" method="POST">
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input type="text" v-model="username" class="form-control" :class="{'login-failed': loginFailed}">
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input :type="showPassword ? 'text' : 'password'" v-model="password" class="form-control" :class="{'login-failed': loginFailed}">
-        </div>
-        <div class="form-check d-flex justify-content-center">
-          <input class="form-check-input" type="checkbox" id="show-password-check" v-model="showPassword">
-          <label class="form-check-label" for="show-password-check">Show Password</label>
-        </div>
-        <button type="submit" class="btn btn-primary">Login</button>
-        <p class="text-danger" v-if="error">{{ error }}</p>
-      </form>
-    </div>
+  <div id="container" class="col-lg-3 text-center row justify-content-center">
+    <OfflinePopup />
+    <h1>Login</h1>
+    <p class="register-link">
+      Don't have an account? <router-link to="/register">Register</router-link>
+    </p>
+    <form ref="loginForm" @submit.prevent="onSubmit" method="POST">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" v-model="username" class="form-control" :class="{'login-failed': loginFailed}">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input :type="showPassword ? 'text' : 'password'" v-model="password" class="form-control" :class="{'login-failed': loginFailed}">
+      </div>
+      <div class="form-check d-flex justify-content-center">
+        <input class="form-check-input" type="checkbox" id="show-password-check" v-model="showPassword">
+        <label class="form-check-label" for="show-password-check">Show Password</label>
+      </div>
+      <button type="submit" class="btn btn-primary">Login</button>
+      <p class="text-danger" v-if="error">{{ error }}</p>
+    </form>
+  </div>
 </template>
 
 <script>
 
 import axios from 'axios'
-import HeaderSection from '../components/HeaderSection.vue'
 import OfflinePopup from '../components/OfflinePopup.vue'
 
 const ENDPOINT = '/api';
@@ -36,7 +34,6 @@ const ENDPOINT = '/api';
 export default {
   name: 'LoginView',
   components: {
-    HeaderSection,
     OfflinePopup
   },
   data () {
@@ -91,6 +88,7 @@ export default {
 </script>
 
 <style>
+
 h1 {
   font-size: 25px;
 }
