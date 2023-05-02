@@ -94,7 +94,11 @@ h1 {
 }
 
 #container {
+  padding: 30px;
+  border-radius: 10px;
   margin: auto;
+  background-color: #d9e9e9;
+  box-shadow: 0px 6px 9px rgba(0, 0, 0, 0.15);
 }
 
 .form-group {
