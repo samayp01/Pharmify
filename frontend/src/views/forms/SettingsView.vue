@@ -1,15 +1,13 @@
 <template>
-  <div class="col-lg-3" style="margin: auto">
-    <NavSection />
-    <div class="text-center">
-      <h1>Settings</h1>
+  <NavSection />
+  <div class="container col-lg-3 text-center">
+    <h1>Settings</h1>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" v-model="subscribed" @change="subscribe(subscribed)">
+      <label class="form-check-label" for="flexCheckDefault">
+        Enable push notifications
+      </label>
     </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" v-model="subscribed" @change="subscribe(subscribed)">
-            <label class="form-check-label" for="flexCheckDefault">
-                Enable push notifications
-            </label>
-        </div>
   </div>
 </template>
 
@@ -94,7 +92,20 @@ export default {
 
 
 <style scoped>
+.container {
+  padding: 30px;
+  border-radius: 10px;
+  margin: auto;
+  background-color: #d9e9e9;
+  max-width: 90%;
+  box-shadow: 0px 6px 9px rgba(0, 0, 0, 0.15);
+}
 
+h1 {
+  font-size: 30px;
+  margin-bottom: 30px;
+  user-select: none;
+}
 .control-panel {
   margin-bottom: 30px;
   font-weight: normal;

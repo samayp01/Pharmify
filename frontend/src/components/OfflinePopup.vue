@@ -60,7 +60,7 @@ export default {
   margin: auto;
   padding: 20px;
   border-radius: 5px;
-  background-color: rgb(236, 226, 226);
+  background-color: #d9e9e9;
   color: black;
   text-align: center;
   z-index: 9999;

@@ -4,7 +4,8 @@ import auth from './middleware/auth';
 const routeMap = [
   {
     path: '/',
-    redirect: '/login'
+    name: 'home',
+    component: () => import('./views/LandingPage.vue')
   },
   {
     path: '/login',

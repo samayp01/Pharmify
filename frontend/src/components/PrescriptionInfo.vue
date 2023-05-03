@@ -1,17 +1,14 @@
 <template>
-  <div class="error" v-if="error">
-    Prescription ID is invalid!
-  </div>
-  <div class="take-prescription" v-if="shouldTake">
-    Time to take your {{ prescriptionData.med_name }} prescription!
-    <br><br>
-    Take the {{ prescriptionData.pre_dosage }} dose
-  </div>
-  <div class="time-remaining">
-    Next {{ prescriptionData.med_name }} dose at {{ formattedDate }}
-  </div>
-  <div class="text-center">
-    <button class="btn btn-success" @click="markAsTaken">Mark As Taken</button>
+  <div class="container text-center">
+    <h1>{{ prescriptionData.usr_username }}'s {{ prescriptionData.med_name }}</h1>
+    <div v-if="shouldTake">
+      Time to take your {{ prescriptionData.med_name }} prescription!
+      <br>
+      <strong>Dosage:</strong> {{ prescriptionData.pre_dosage }}
+    </div>
+    <div v-else>Next {{ prescriptionData.med_name }} dose on {{ formattedDate }}</div>
+    <button class="btn btn-success" @click="markAsTaken" v-if="shouldTake">Mark As Taken</button>
+    <div class="error" v-if="error">Prescription ID is invalid!</div>
   </div>
 </template>
 
@@ -28,14 +25,13 @@ export default {
   computed: {
     shouldTake() {
       const lastDose = new Date(this.prescriptionData.pre_last_dose);
-      const frequency = this.prescriptionData.pre_frequency * 60 * 60 * 1000; // convert hours to milliseconds
+      const frequency = this.prescriptionData.pre_frequency * 60 * 60 * 1000;
       const nextDose = new Date(lastDose.getTime() + frequency);
       return nextDose < Date.now();
     },
-
     formattedDate() {
       const lastDose = new Date(this.prescriptionData.pre_last_dose);
-      const frequency = this.prescriptionData.pre_frequency * 60 * 60 * 1000; // convert hours to milliseconds
+      const frequency = this.prescriptionData.pre_frequency * 60 * 60 * 1000;
       const nextDose = new Date(lastDose.getTime() + frequency);
       return moment(nextDose).format('MMMM Do YYYY, h:mm:ss a');
     }
@@ -67,28 +63,6 @@ export default {
     }
   },
   methods: {
-    // markAsTaken() {
-      
-    //   //let newDateTime = moment(this.prescription.pre_last_dose).add(this.prescription.pre_frequency, 'hours').format('YYYY-MM-DD HH:mm:ss');
-    //   let newDateTime = moment(this.prescription.pre_last_dose).add(+this.prescription.pre_frequency, 'hours').format('YYYY-MM-DD HH:mm:ss');
-    //   axios.put('/api/prescriptions/' + this.prescription.pre_id, {
-    //     pre_id: this.prescription.pre_id,
-    //     pre_last_dose: newDateTime
-    //   })
-    //   .then(response => {
-    //     if (response.status == 200) {
-    //       console.log("Prescription hours updated");
-    //       this.$router.push('/dashboard');
-
-    //     } else {
-    //       console.log("Error updating prescription hours");
-    //     }
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
-      
-    // }
     markAsTaken() {
        let now = new Date(Date.now());
        const newDateTime = now.toISOString().slice(0, 19).replace('T', ' ');
@@ -116,25 +90,24 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  margin-bottom: 30px;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  border-radius: 10px;
+  margin: auto;
+  background-color: #d9e9e9;
+  max-width: 90%;
+  box-shadow: 0px 6px 9px rgba(0, 0, 0, 0.15);
+}
 .error {
   border: 1px solid black;
   padding: 10px;
   margin: 10px;
   border-radius: 5px;
   background-color: #F5A5A5;
-}
-.take-prescription {
-  border: 1px solid black;
-  padding: 10px;
-  margin: 10px;
-  border-radius: 5px;
-  background-color: #F5C5A5;
-}
-.time-remaining {
-  border: 1px solid black;
-  padding: 10px;
-  margin: 10px;
-  border-radius: 5px;
-  background-color: #F5F5F5;
 }
 </style>

@@ -1,85 +1,75 @@
 <template>
-  <div class="col-lg-3" style="margin: auto">
+  <div>
     <NavSection />
     <OfflinePopup />
-    <div class="text-center">
-      <h1>Add Prescription</h1>
+    <div id="container" class="col-lg-3 text-center row justify-content-center">
+      <form class="text-center" @submit.prevent="submitForm">
+        <h1>New Prescription</h1>
+        <div class="form-group">
+          <label>Name</label><br>
+          <select class="form-control" v-model="name" required>
+            <option v-for="(med, index) in medications" v-bind:key="index" :value="med.med_name">{{ med.med_name }}</option>
+          </select>
+        </div>
+        <br>
+        <div class="form-group">
+          <label>Dosage</label><br>
+          <input class="form-control" type="text" v-model="dosage" required>
+        </div>
+        <br>
+        <div class="form-group">
+          <label>Frequency</label><br>
+          <select class="form-control" v-model="frequency" required>
+            <option value="1">1 hour</option>
+            <option value="2">2 hours</option>
+            <option value="3">3 hours</option>
+            <option value="4">4 hours</option>
+            <option value="5">5 hours</option>
+            <option value="6">6 hours</option>
+            <option value="7">7 hours</option>
+            <option value="8">8 hours</option>
+            <option value="9">9 hours</option>
+            <option value="10">10 hours</option>
+            <option value="11">11 hours</option>
+            <option value="12">12 hours</option>
+            <option value="24">1 day</option>
+            <option value="48">2 days</option>
+            <option value="72">3 days</option>
+            <option value="168">1 week</option>
+          </select>
+          <!-- <input class="form-control" type="text" v-model="frequency" required> -->
+        </div>
+        <br>
+        <div class="form-group">
+          <label>Start Date</label><br>
+          <input class="form-control" type="date" v-model="start_date" required>
+        </div>
+        <br>
+        <div class="form-group">
+          <label>End Date</label><br>
+          <input class="form-control" type="date" v-model="end_date">
+        </div>
+        <br>
+        <div class="form-group">
+          <label>Description</label><br>
+          <textarea class="form-control" v-model="description"></textarea>
+        </div>
+        <br>
+        <div>
+          <form @submit.prevent="addUser" class="form-group">
+            <div class="error" v-if="error">{{ error }}</div>
+          </form>
+          <ul>
+            <li v-for="(user, index) in allow_users" :key="user">
+              {{ user }}
+              <button class="delete-user" @click="deleteUser(index)">✖</button>
+            </li>
+          </ul>
+        </div>
+        <br>
+        <button class="btn btn-success" type="submit">Submit</button>
+      </form>
     </div>
-
-        <form class="text-center" @submit.prevent="submitForm">
-          <div class="form-group">
-            <label>Name</label><br>
-            <select class="form-control" v-model="name" required>
-              <option v-for="(med, index) in medications" v-bind:key="index" :value="med.med_name">{{ med.med_name }}</option>
-            </select>
-          </div>
-          <br>
-          <div class="form-group">
-            <label>Dosage</label><br>
-            <input class="form-control" type="text" v-model="dosage" required>
-          </div>
-          <br>
-          <div class="form-group">
-            <label>Frequency</label><br>
-            <select class="form-control" v-model="frequency" required>
-              <option value="1">1 hour</option>
-              <option value="2">2 hours</option>
-              <option value="3">3 hours</option>
-              <option value="4">4 hours</option>
-              <option value="5">5 hours</option>
-              <option value="6">6 hours</option>
-              <option value="7">7 hours</option>
-              <option value="8">8 hours</option>
-              <option value="9">9 hours</option>
-              <option value="10">10 hours</option>
-              <option value="11">11 hours</option>
-              <option value="12">12 hours</option>
-              <option value="24">1 day</option>
-              <option value="48">2 days</option>
-              <option value="72">3 days</option>
-              <option value="168">1 week</option>
-            </select>
-            <!-- <input class="form-control" type="text" v-model="frequency" required> -->
-          </div>
-          <br>
-          <div class="form-group">
-            <label>Start Date</label><br>
-            <input class="form-control" type="date" v-model="start_date" required>
-          </div>
-          <br>
-          <div class="form-group">
-            <label>End Date</label><br>
-            <input class="form-control" type="date" v-model="end_date">
-          </div>
-          <br>
-          <div class="form-group">
-            <label>Description</label><br>
-            <textarea class="form-control" v-model="description"></textarea>
-          </div>
-          <br>
-          <div>
-            <form @submit.prevent="addUser" class="form-group">
-              <!--label for="user">New Caretaker</label><br>
-              <div class="row">
-                <div class="col-8">
-                  <input class="form-control" type="text" id="user" v-model="newUser" />
-                </div>
-                <div class="col-4">
-                  <button class="btn btn-primary" id="logo-button" type="submit">Add</button>
-                </div>
-              </div-->
-              <div class="error" v-if="error">{{ error }}</div>
-            </form>
-            <ul>
-              <li v-for="(user, index) in allow_users" :key="user">
-                {{ user }}
-                <button class="delete-user" @click="deleteUser(index)">✖</button>
-              </li>
-            </ul>
-          </div>
-          <br>
-          <button class="btn btn-success" type="submit">Submit</button>
-        </form>
   </div>
 </template>
 
@@ -137,7 +127,7 @@ export default {
 
       if(name == '' || dosage == '' || frequency == '' || start_date == null ||
           end_date == null || description == '') {
-        alert('Please fill in all required fields');
+        this.error = "Please fill out all fields";
         return;
       }
 
@@ -193,6 +183,22 @@ export default {
 
 
 <style scoped>
+#container {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  border-radius: 10px;
+  margin: auto;
+  background-color: #d9e9e9;
+  max-width: 90%;
+  box-shadow: 0px 6px 9px rgba(0, 0, 0, 0.15);
+}
+
+h1 {
+  font-size: 30px;
+  margin-bottom: 20px;
+  user-select: none;
+}
 
 .control-panel {
   margin-bottom: 30px;
@@ -208,12 +214,14 @@ export default {
 .form-group, ul {
   text-align: left;
   font-weight: bold;
-  margin-left: 15%;
-  margin-right: 15%;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 
 .form-group label {
   margin-bottom: 0px;
+  font-weight: 100;
+  user-select: none;
 }
 
 select {
