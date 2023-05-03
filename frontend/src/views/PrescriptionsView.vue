@@ -194,7 +194,7 @@ export default {
 /* Styles for screens wider than 1001px */
 @media (min-width: 1001px) {
   .tabcontent {
-    max-width: 75%;
+    max-width: 60%;
   }
 }
 
@@ -210,12 +210,12 @@ export default {
 }
 
 .card-item:hover {
-  background-color: #eeeef5;
+  background-color: #accecc;
   transition: 0.3s;
 }
 
 .card-item:click {
-  background-color: #d2d2ea;
+  background-color: #accecc;
 }
 
 span {
