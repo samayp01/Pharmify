@@ -64,6 +64,8 @@ export default {
   border-radius: 10px;
   transition: 0.3s;
   order: 1;
+  cursor: pointer;
+  user-select: none;
 }
 
 .settings {
@@ -72,6 +74,8 @@ export default {
   box-shadow: 0px 0px 5px rgb(101, 152, 140);
   border-radius: 10px;
   transition: 0.3s;
+  cursor: pointer;
+  user-select: none;
 }
 
 .home:hover, .logout:hover, .settings:hover {
@@ -86,7 +90,6 @@ export default {
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  /* background-color: rgb(165, 203, 194); */
   color: #fff;
   transition: 0.3s;
   user-select: none;
