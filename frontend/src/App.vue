@@ -36,7 +36,8 @@ export default {
 }
 
 body {
-  background: linear-gradient(to bottom, #78dbba, #56ad92);
+  /* background: linear-gradient(to bottom, #78dbba, #56ad92); */
+  background: linear-gradient(to bottom, #5caa90, #337d65);
   margin: 0;
   height: 100%;
   background-repeat: no-repeat;
