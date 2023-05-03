@@ -1,12 +1,13 @@
 <template>
   <div>
     <NavSection />
-    <div class="container">
+    <div class="container text-center">
       <h1>Past Prescriptions</h1>
-      <div class="prescription-list">
+      <div class="prescription-list" v-if="hasPrescriptions">
         <PrescriptionCard class="card-item" v-for="prescription in prescriptions" :key="prescription.id" :prescription="prescription" />
       </div>
-      <button class="btn btn-danger" v-on:click="clearHistory">Clear History</button>
+      <p v-else>Prescriptions courses will appear here once finished.</p>
+      <button v-if="hasPrescriptions" class="btn btn-danger" v-on:click="clearHistory">Clear History</button>
     </div>
   </div>
 </template>
@@ -24,6 +25,11 @@ export default {
   components: {
     PrescriptionCard,
     NavSection
+  },
+  computed: {
+    hasPrescriptions() {
+      return this.prescriptions.length > 0;
+    }
   },
   mounted() {
     console.log('Loading past prescriptions.');
@@ -69,7 +75,14 @@ h1 {
   margin-bottom: 30px;
 }
 .container {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  border-radius: 10px;
+  margin: auto;
+  background-color: #d9e9e9;
+  max-width: 90%;
+  box-shadow: 0px 6px 9px rgba(0, 0, 0, 0.15);
 }
 
 .prescription-list {

@@ -20,11 +20,14 @@
           v-for="prescription in filtered_prescriptiondata" :key="prescription.id" :prescription="prescription"/>
       </div>
       <p v-else class="text-center">No prescriptions. Click 'Add Prescription' to get started.</p>
-      <button class="btn btn-primary" v-on:click="addPrescription">Add Prescription</button><br>
+      <button class="btn btn-primary" v-on:click="addPrescription">Add Prescription</button>
       <br>
-      <button class="btn btn-info" v-on:click="viewPrescriptionHistory">View Prescription History</button><br>
       <br>
-      <button class="btn btn-info" v-on:click="manageCaretaker">Manage Caretaker</button><br>
+      <button class="btn btn-info" v-on:click="viewPrescriptionHistory">View History</button>
+      <br>
+      <br>
+      <button class="btn btn-info" v-on:click="manageCaretaker">Manage Caretakers</button>
+      <br>
     </div>
 
     <div id="recipient-prescriptions" class="tabcontent text-center" v-show="activeTab === 'recipient-prescriptions'">
@@ -132,7 +135,7 @@ export default {
     setActiveTab(tab) {
       document.getElementById(this.activeTab + '-btn').style.backgroundColor = 'inherit';
       this.activeTab = tab;
-      document.getElementById(tab + '-btn').style.backgroundColor = '#6e9f9f';
+      document.getElementById(tab + '-btn').style.backgroundColor = '#d9e9e9';
     }
   }
 }
@@ -142,8 +145,9 @@ export default {
 
 .tab-menu {
   overflow: hidden;
-  background-color: #d9e9e9;
+  background-color: #6e9f9f;
   margin: auto;
+  margin-bottom: 0;
   display: flex;
   justify-content: center;
   max-width: 300px;
@@ -156,8 +160,10 @@ export default {
   flex: 1;
   text-align: center;
   padding: 10px;
-  background-color: #d9e9e9;
+  background-color: #6e9f9f;
   border-radius: 10px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
   border: none;
   outline: none;
   cursor: pointer;
@@ -179,6 +185,7 @@ export default {
   background-color: #d9e9e9;
   border-top: none;
   margin: 0px 25px 25px 25px;
+  box-shadow: 0px 6px 9px rgba(0, 0, 0, 0.15);
 }
 
 .text-center {
