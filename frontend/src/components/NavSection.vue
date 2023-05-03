@@ -29,7 +29,7 @@ export default {
           console.log('Logged out.');
           localStorage.removeItem('token');
           localStorage.removeItem('user');
-          this.$router.push('/login');
+          this.$router.push('/');
         } else {
           console.log('Error logging out.');
         }
