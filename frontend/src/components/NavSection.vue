@@ -51,7 +51,6 @@ export default {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-align: center;
-  padding: 20px;
   margin-bottom: 25px;
   display: flex;
   justify-content: space-between;
@@ -99,8 +98,24 @@ export default {
   order: 2;
 }
 
-.settings, .logout {
-  margin-left: 15px;
+/* Styles for screens wider than 1001px */
+@media (min-width: 1001px) {
+  .header {
+    padding: 20px;
+  }
+  .settings, .logout {
+    margin-left: 15px;
+  }
+}
+
+/* Styles for screens narrower than 1000px */
+@media (max-width: 1000px) {
+  .header {
+    padding: 5px;
+  }
+  .settings, .logout {
+    margin-left: 0px;
+  }
 }
 
 .logout img {
