@@ -1,65 +1,13 @@
-<style scoped>
-
-.header {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  text-align: center;
-  border-bottom: 3px solid #ddd;
-  padding: 20px;
-  margin-bottom: 20px;
-  background-color: rgb(165, 203, 194);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-h1 {
-  user-select: none;
-  font-size: 30px;
-}
-
-.home {
-  padding: 5px;
-  font-size: 25px;
-  box-shadow: 0px 0px 5px rgb(101, 152, 140);
-  border-radius: 80%;
-  transition: 0.3s;
-}
-
-.home:hover, .logout:hover {
-  background-color: rgb(111, 162, 150);
-  box-shadow: 0px 0px 5px rgb(101, 152, 140);
-}
-
-.logout {
-  padding: 10px 10px;
-  margin-left: 20px;
-  box-shadow: 0px 0px 5px rgb(101, 152, 140);
-  border: none;
-  border-radius: 100%;
-  cursor: pointer;
-  background-color: rgb(165, 203, 194);
-  color: #fff;
-  transition: 0.3s;
-  user-select: none;
-}
-
-.logout img {
-  width: 20px;
-  height: 20px;
-}
-
-</style>
-
 <template>
   <div class="header">
-    <h1 class="home" title="Dashboard" v-on:click="home">🏠</h1>
-    <!--div class="settings" title="Settings" v-on:click="settings">
-        <img src="/favicon.ico" alt="Settings">
-    </div-->
-    <div class="logout" title="Log Out" v-on:click="logout">
+    <div class="home" title="Dashboard" v-on:click="home">🏠</div>
+    <div class="right-end">
+      <div class="settings" title="Settings" v-on:click="settings">⚙️</div>
+      <div class="logout" title="Logout" v-on:click="logout">
         <img src="/exit.png" alt="Logout">
+      </div>
     </div>
+    
   </div>
 </template>
 
@@ -96,3 +44,72 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+.header {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-align: center;
+  padding: 20px;
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.home {
+  padding: 7px;
+  font-size: 30px;
+  box-shadow: 0px 0px 5px rgb(101, 152, 140);
+  border-radius: 10px;
+  transition: 0.3s;
+  order: 1;
+  cursor: pointer;
+  user-select: none;
+}
+
+.settings {
+  padding: 7px;
+  font-size: 30px;
+  box-shadow: 0px 0px 5px rgb(101, 152, 140);
+  border-radius: 10px;
+  transition: 0.3s;
+  cursor: pointer;
+  user-select: none;
+}
+
+.home:hover, .logout:hover, .settings:hover {
+  background-color: rgb(164, 244, 226);
+  box-shadow: 0px 0px 5px rgb(101, 152, 140);
+}
+
+.logout {
+  padding: 16px;
+  margin: 0;
+  box-shadow: 0px 0px 5px rgb(101, 152, 140);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #fff;
+  transition: 0.3s;
+  user-select: none;
+  vertical-align: middle;
+}
+
+.right-end {
+  display: flex;
+  justify-content: flex-end;
+  order: 2;
+}
+
+.settings, .logout {
+  margin-left: 15px;
+}
+
+.logout img {
+  width: 25px;
+  height: 25px;
+  margin: 0;
+}
+
+</style>

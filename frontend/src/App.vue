@@ -32,7 +32,14 @@ export default {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* text-align: center; */
-  color: #2c3e50;
+  color: #1b2732;
+}
+
+body {
+  background: linear-gradient(to bottom, #78dbba, #56ad92);
+  margin: 0;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 </style>
