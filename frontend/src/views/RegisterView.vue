@@ -116,7 +116,7 @@ export default {
       }
 
       // validate email address
-      if(!/\S+@\S+\.\S+/.test(email)) {
+      if(!/^[\w.-]+@[a-zA-Z_-]+?\.[a-zA-Z]{2,3}$/.test(email)) {
         this.error = 'Invalid email address';
         this.email = '';
         this.usernameTaken = false;
