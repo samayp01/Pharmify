@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const prescriptionDb = require("../db/prescriptionDb");
+const userDb = require("../db/userDb");
 const authentication = require("../modules/authentication");
+const { notifyAt } = require("../modules/push");
 
 // GET /prescriptions
 router.get("/", (req, res) => {
@@ -72,63 +74,89 @@ router.get("/history/user/:userId", (req, res) => {
 
 // GET /prescriptions
 router.get("/caretakers", (req, res) => {
-    prescriptionDb.getPrescriptionsByCaretaker(req.usr_id).then((prescriptions) => {
-        res.status(200).send(prescriptions);
-    }).catch((error) => {
-        res.status(500).send(error);
-    });
+  prescriptionDb.getPrescriptionsByCaretaker(req.usr_id).then((prescriptions) => {
+    res.status(200).send(prescriptions);
+  }).catch((error) => {
+    res.status(500).send(error);
+  });
 });
 
 // POST /prescriptions
 router.post("/", (req, res) => {
-    prescriptionDb.getMedicineByName(req.body.name).then((medicine) => {
-        if (medicine) {
-            newPrescription = {
-                'pre_usr_id': req.usr_id,
-                'pre_med_id': medicine.med_id,
-                'pre_dosage': req.body.dosage,
-                'pre_frequency': req.body.frequency,
-                'pre_instructions': 'default',
-                'pre_start_date': req.body.start_date,
-                'pre_end_date': req.body.end_date,
-                'pre_description': req.body.description
-            };
-            console.log(newPrescription);
-            prescriptionDb.postPrescription(newPrescription).then(() => {
-                res.status(200).send('Created prescription successfully');
-            }).catch((error) => {
-                res.status(500).send(error);
-            })
-        } else {
-            res.status(400).send('Invalid medicine name');
+  prescriptionDb.getMedicineByName(req.body.name).then((medicine) => {
+    if (medicine) {
+      newPrescription = {
+        'pre_usr_id': req.usr_id,
+        'pre_med_id': medicine.med_id,
+        'pre_dosage': req.body.dosage,
+        'pre_frequency': req.body.frequency,
+        'pre_instructions': 'default',
+        'pre_start_date': req.body.start_date,
+        'pre_end_date': req.body.end_date,
+        'pre_description': req.body.description
+      };
+      console.log(newPrescription);
+      prescriptionDb.postPrescription(newPrescription).then(() => {
+        const nextDose = new Date((new Date(req.body.start_date).getTime()) + (req.body.frequency * 60 * 60 * 1000));
+
+        if(nextDose < Date.now()) {
+          userDb.getSubscription(req.usr_id).then((subscription) => {
+            if (subscription) {
+              notifyAt(subscription, {
+                title: 'Med Reminder 🕒',
+                body: `It's time to take your ${req.body.dosage} of ${req.body.name}.`
+              }, nextDose);
+            }
+          })
         }
-    });
+        
+        res.status(200).send('Created prescription successfully');
+      }).catch((error) => {
+        res.status(500).send(error);
+      })
+    } else {
+      res.status(400).send('Invalid medicine name');
+    }
+  });
 });
 
 // For last dose
 // PUT /prescriptions/{prescriptionId}
 router.put("/:prescriptionId", (req, res) => {
-    console.log(req.body.pre_last_dose);
-    console.log(req.params.prescriptionId);
-    prescriptionDb.getPrescriptionById(req.params.prescriptionId).then((prescription) => {
+  console.log(req.body.pre_last_dose);
+  console.log(req.params.prescriptionId);
+  prescriptionDb.getPrescriptionById(req.params.prescriptionId).then((prescription) => {
 
-        if (prescription) {
-            authentication.isAllowedToView(req.usr_id, prescription.pre_usr_id).then(allowed => {
-                if (allowed) {
-                    prescriptionDb.updatePrescriptionLastDose(req.params.prescriptionId, req.body.pre_last_dose).then(() => {
-                        res.status(200).send('Updated prescription successfully');
-                    }
-                    ).catch((error) => {
-                        res.status(500).send(error);
-                    });
-                } else {
-                    res.sendStatus(403);
+    if (prescription) {
+      authentication.isAllowedToView(req.usr_id, prescription.pre_usr_id).then(allowed => {
+        if (allowed) {
+          prescriptionDb.updatePrescriptionLastDose(req.params.prescriptionId, req.body.pre_last_dose).then(() => {
+            const nextDose = new Date((new Date(req.body.pre_last_dose).getTime()) + (req.body.frequency * 60 * 60 * 1000));
+
+            if(nextDose < Date.now()) {
+              userDb.getSubscription(req.usr_id).then((subscription) => {
+                if (subscription) {
+                  notifyAt(subscription, {
+                    title: 'Med Reminder 🕒',
+                    body: `It's time to take your ${req.body.dosage} of ${req.body.name}.`
+                  }, nextDose);
                 }
-            });
+              })
+            }
+
+            res.status(200).send('Updated prescription successfully');
+          }
+          ).catch((error) => {
+            res.status(500).send(error);
+          });
         } else {
-            res.status(400).send('Invalid prescription id');
+          res.sendStatus(403);
         }
-    });
+      });
+    } else {
+        res.status(400).send('Invalid prescription id');
+    }
+  });
 });
 
 router.get("/medications", (req, res) => {
