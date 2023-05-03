@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import auth from './middleware/auth';
+import { authorize } from './middleware/auth';
 
 const routeMap = [
   {
@@ -56,9 +56,10 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to) => {
-  if (!auth() && to.name !== 'login' && to.name !== 'register') {
+  const isAuthorized = authorize();
+  if (!isAuthorized && to.name !== 'login' && to.name !== 'register' && to.name !== 'home') {
     return { name: 'login' } // redirect to login if not authorized
-  } else if(auth() && (to.name === 'login' || to.name === 'register')) {
+  } else if(isAuthorized && (to.name === 'login' || to.name === 'register')) {
     return { name: 'dashboard' } // redirect to dashboard if authorized
   }
 })

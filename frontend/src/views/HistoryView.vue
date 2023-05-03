@@ -90,8 +90,15 @@ h1 {
   margin-bottom: 40px;
 }
 
+/* Styles for screens wider than 1001px */
+@media (min-width: 1001px) {
+  .container {
+    max-width: 70%;
+  }
+}
+
 .card-item:hover {
-  background-color: #eeeef5;
+  background-color: #accecc;
   transition: 0.3s;
 }
 </style>
