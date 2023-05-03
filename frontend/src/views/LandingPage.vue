@@ -19,12 +19,7 @@ export default {
   name: 'LandingPage',
   components: {
     TitleBox,
-  },
-  data() {
-    return {
-      appName: 'Pharmify',
-    };
-  },
+  }
 };
 </script>
 
