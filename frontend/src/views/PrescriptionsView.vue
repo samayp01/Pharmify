@@ -183,8 +183,22 @@ export default {
   padding: 20px;
   background-color: #d9e9e9;
   border: 3px solid #d9e9e9;
-  margin: 0px 25px 25px 25px;
+  margin: auto;
   box-shadow: 0px 6px 9px rgba(0, 0, 0, 0.15);
+}
+
+/* Styles for screens wider than 1001px */
+@media (min-width: 1001px) {
+  .tabcontent {
+    max-width: 75%;
+  }
+}
+
+/* Styles for screens narrower than 1000px */
+@media (max-width: 1000px) {
+  .tabcontent {
+    margin: 0px 25px 25px 25px;
+  }
 }
 
 .text-center {
