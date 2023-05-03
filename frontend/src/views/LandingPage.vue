@@ -31,6 +31,7 @@ export default {
   align-items: center;
   height: 100vh;
   background-color: #40846e;
+  background: linear-gradient(to bottom, #5caa90, #337d65);
   color: white;
 }
 
