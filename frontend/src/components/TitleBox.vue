@@ -21,14 +21,14 @@ export default {
 div {
   user-select: none;
 }
+
 h1 {
-  margin: auto;
-  padding-top: 80px;
-  padding-bottom: 80px;
-  color: #3a514a;
+  padding-bottom: 0px;
+  color: #f4fcfa;
   font-weight: 700;
   font-size: 50px;
 }
+
 img {
   display: inline-block;
   vertical-align: middle;
