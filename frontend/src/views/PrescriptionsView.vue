@@ -111,15 +111,15 @@ export default {
     },
     hasCaretakerPrescriptions() {
       return this.caretakerprescriptiondata.length > 0;
+    },
+    numPrescriptions() {
+      return this.filtered_prescriptiondata.length;
+    },
+    numCaretakerPrescription() {
+      return this.filtered_caretakerprescriptiondata.length;
     }
   },
   methods: {
-    numPrescriptions() {
-      return this.prescriptiondata.length;
-    },
-    numCaretakerPrescription() {
-      return this.caretakerprescriptiondata.length;
-    },
     addPrescription() {
       this.$router.push('/add/prescription');
     },
@@ -144,7 +144,6 @@ export default {
 <style scoped>
 
 .tab-menu {
-  overflow: hidden;
   background-color: #6e9f9f;
   margin: auto;
   margin-bottom: 0;
@@ -183,7 +182,7 @@ export default {
   border-radius: 10px;
   padding: 20px;
   background-color: #d9e9e9;
-  border-top: none;
+  border: 3px solid #d9e9e9;
   margin: 0px 25px 25px 25px;
   box-shadow: 0px 6px 9px rgba(0, 0, 0, 0.15);
 }
@@ -203,9 +202,9 @@ export default {
 
 span {
   color: white;
-  background-color: #6e9f9f;
-  padding: 3px;
-  border-radius: 10px;
+  background-color: #70adad;
+  padding: 6px;
+  border-radius: 12px;
 }
 
 span:active {

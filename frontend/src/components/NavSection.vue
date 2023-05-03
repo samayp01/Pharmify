@@ -100,7 +100,7 @@ export default {
 }
 
 .settings, .logout {
-  margin-left: 20px;
+  margin-left: 15px;
 }
 
 .logout img {

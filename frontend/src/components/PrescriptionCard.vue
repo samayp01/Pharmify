@@ -3,12 +3,12 @@
     <div class="card-header">
       <h3>{{ prescription.usr_username }}'s {{ prescription.med_name }}</h3>
     </div>
-    
     <div><strong>Dosage:</strong> {{ prescription.pre_dosage }}</div>
-    <div><strong>Frequency:</strong> every {{ prescription.pre_frequency }} hours</div>
     <div>
-      from {{ formatDate(prescription.pre_start_date) }} 
-      to {{ formatDate(prescription.pre_end_date) }}</div>
+      Every {{ getFrequency }}
+      <br>
+      from {{ formatDate(prescription.pre_start_date) }} to {{ formatDate(prescription.pre_end_date) }}
+    </div>
   </div>
 </template>
 
@@ -18,6 +18,18 @@ export default {
   props: {
     prescription: {
       required: true
+    }
+  },
+  computed: {
+    getFrequency() {
+      let hours = this.prescription.pre_frequency;
+      if(hours <= 24) {
+        return `${hours} hour${hours > 1 ? 's' : ''}`;
+      } else if(hours < 168) {
+        return `${Math.floor(hours / 24)} day${Math.floor(hours / 24) > 1 ? 's' : ''}`;
+      } else {
+        return `${Math.floor(hours / 168)} week${Math.floor(hours / 168) > 1 ? 's' : ''}`;
+      }
     }
   },
   methods: {
@@ -35,17 +47,17 @@ export default {
 
 <style>
 .prescription-card {
-  border: 1px solid #999;
+  padding: 5px;
   border-radius: 10px;
   margin-bottom: 20px;
-  background-color: #F5F5F5;
+  background-color: #cce4e4;
   overflow: hidden;
+  box-shadow: 0px 6px 9px rgba(0, 0, 0, 0.15);
   user-select: none;
 }
 
 .card-header {
-  background-color: #e2e8ef;
-  padding: 5px;
+  padding-bottom: 5px;
   margin-bottom: 5px;
 }
 </style>

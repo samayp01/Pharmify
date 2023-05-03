@@ -1,9 +1,6 @@
 <template>
   <NavSection />
   <div class="container">
-      <div class="text-center">
-        <h1>Current Prescription</h1>
-      </div>
     <PrescriptionInfo :prescription="prescription" />
   </div>
 </template>
