@@ -32,7 +32,6 @@ export default {
     }
   },
   mounted() {
-    console.log('Loading past prescriptions.');
     axios.get(`${ENDPOINT}/prescriptions/history`)
       .then(response => {
         if(response.status == 200) {
