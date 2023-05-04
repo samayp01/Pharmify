@@ -15,7 +15,7 @@
 ## Overview
 Pharmify is a web application that enables users to manage and receive notifications for their medical prescriptions. The application also allows users to share their prescriptions with other users on the app serving as their caretakers. The application is built using a Vue frontend, NodeJS API, and a MariaDB database. These components of the application are containerized and deployed with Docker.
 
----
+
 ## Installation
 To run this application locally, make sure you have [Docker](https://docs.docker.com/get-docker/) installed on your machine. Then, follow the steps below:
 
@@ -41,7 +41,7 @@ docker-compose up
 
 Once the containers are up and running, you can access the application at `http://localhost`.
 
----
+
 ## Usage
 The following steps outline how to use the application:
 
@@ -53,7 +53,7 @@ The following steps outline how to use the application:
 
 4. You will be redirected to the dashboard page. The dashboard page displays your current prescriptions, as well as links to add a new prescription, view prescription history, and manage your caretakers. The navigation bar at the top of the page provides links to the dashboard (home icon), settings (gear icon) to manage push notification permissions, and logout (exit icon).
 
----
+
 ## Features
 The application enables users to manage and track their medical prescriptions, as well as make their prescriptions available to other users on the app serving as their caregivers. The key features of the application include:
 
@@ -63,7 +63,7 @@ The application enables users to manage and track their medical prescriptions, a
 
 - **Real-time Alerts:** Users can receive push notifications when their prescriptions are due or when their prescriptions are updated by their caregivers.
 
----
+
 ## Technologies Used
 This project makes use of several technologies to provide a comprehensive solution. The key technologies used in this project include:
 
@@ -85,6 +85,6 @@ This project makes use of several technologies to provide a comprehensive soluti
 
 - **Docker Compose:** Docker Compose is used to define and orchestrate the multi-container application setup for ease of deployment.
 
----
+
 ## License
 Distributed under the MIT License. See [`LICENSE.md`](./LICENSE.md) for more information.
