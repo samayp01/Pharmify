@@ -9,6 +9,12 @@ const COOKIE_NAME = 'jwt';
 const EXPIRATION_TIME = 1000 * 60 * 60; // 1 hour
 
 
+// GET /health
+router.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});
+
+
 // POST /login
 router.post('/login', (req, res) => {
   const { username, password } = req.body;
