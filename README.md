@@ -3,12 +3,11 @@
 
 ---
 ## Table of Contents
-- [Overview](#Pharmify)
+- [Overview](#overview)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Features](#features)
 - [Technologies Used](#technologies-used)
-- [Contributing](#contributing)
 - [License](#license)
 
 ---
