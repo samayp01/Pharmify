@@ -16,7 +16,7 @@
 import axios from 'axios';
 import NavSection from '../../components/NavSection.vue'
 
-const ENDPOINT = '/api';
+const ENDPOINT = '/api/users';
 
 export default {
   name: 'SettingsView',
@@ -28,7 +28,7 @@ export default {
   },
   data() {
     return {
-      subscribed: true
+      subscribed: Notification.permission === 'granted'
     }
   },
   methods: {
@@ -37,8 +37,10 @@ export default {
         Notification.requestPermission().then(permission => {
           if (permission === 'granted') {
             this.subscribeToNotifications();
+            this.subscribed = true;
           } else {
             console.warn('Permission was denied for notifications');
+            this.subscribed = false;
           }
         });
       } else {
@@ -47,9 +49,13 @@ export default {
     },
     subscribeToNotifications() {
       navigator.serviceWorker.ready.then(swRegistration => {
-        swRegistration.pushManager.subscribe({ userVisibleOnly: true })
+        swRegistration.pushManager.subscribe(
+            { 
+              userVisibleOnly: true,
+              applicationServerKey: process.env.VUE_APP_VAPID_PUBLIC_KEY 
+            })
           .then(subscription => {
-            console.log('Subscribed to notifications', subscription);
+            console.log('Subscribed to notifications');
             axios.post(`${ENDPOINT}/subscribe`, { subscription: subscription })
               .then(response => console.log(response))
               .catch(error => console.log(error));
