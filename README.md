@@ -29,12 +29,20 @@ git clone <repo-url>
 cd Pharmify
 ```
 
-3. Build the Docker containers using Docker Compose:
+3. The application requires a `.env` file to be present in the root directory of the project. See the `.env.template` file for an example of the required environment variables.
+    - The `API_SECRET_KEY` variable is used to sign and verify JSON Web Tokens (JWTs) used for authentication. It should be set to a random string of characters.
+    - The `EMAIL_ADDRESS` variable represents the sender for the push notifications sent by the backend. It should be a valid address.
+    - The `VAPID_PRIVATE` and `VAPID_PUBLIC` variables are used to configure the Web Push functionality. These keys can be generated at [`vapidkeys.com`](https://vapidkeys.com/) or using the `web-push` CLI tool.
+
+4. The Vue frontend also requires a `.env` file to be present in the `/frontend` directory. See the `/frontend/.env.template` file for an example of the required environment variables.
+    - The `VUE_APP_VAPID_PUBLIC_KEY` variable is required in order for the Service Worker to begin receiving push notifications from the backend. This variable should be set to the same value as the `VAPID_PUBLIC` variable in the root `.env` file.
+
+5. Build the Docker containers using Docker Compose:
 ```sh
 docker-compose build
 ```
 
-4. Start the Docker containers:
+6. Start the Docker containers:
 ```sh
 docker-compose up
 ```
