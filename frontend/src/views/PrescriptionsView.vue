@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page">
     <NavSection />
     <div class="tab-menu">
       <button id="my-prescriptions-btn" class="tab-item" @click="setActiveTab('my-prescriptions')" 
@@ -58,7 +58,6 @@ export default {
   mounted() {
     this.setActiveTab('my-prescriptions');
 
-    console.log('Loading prescriptions.');
     axios.get(`${ENDPOINT}/prescriptions`)
       .then(response => {
         if(response.status === 200) {
@@ -81,7 +80,7 @@ export default {
         }        
       })
       .catch(error => {
-        console.log(error)
+        console.log(error);
       });
   },
   data() {
@@ -142,17 +141,17 @@ export default {
 </script>
 
 <style scoped>
-
 .tab-menu {
   background-color: #6e9f9f;
   margin: auto;
-  margin-bottom: 0;
+  margin-bottom: -1px;
   display: flex;
   justify-content: center;
   max-width: 300px;
   padding: 0px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  z-index: 1;
 }
 
 .tab-item {
@@ -168,6 +167,7 @@ export default {
   cursor: pointer;
   transition: background-color 0.3s;
   user-select: none;
+  z-index: 3;
 }
 
 .tab-item:active {
@@ -181,16 +181,18 @@ export default {
 .tabcontent {
   border-radius: 10px;
   padding: 20px;
+  position: relative;
   background-color: #d9e9e9;
   border: 3px solid #d9e9e9;
   margin: auto;
-  box-shadow: 0px 6px 9px rgba(0, 0, 0, 0.15);
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+  z-index: 999;
 }
 
 /* Styles for screens wider than 1001px */
 @media (min-width: 1001px) {
   .tabcontent {
-    max-width: 75%;
+    max-width: 60%;
   }
 }
 
@@ -206,12 +208,12 @@ export default {
 }
 
 .card-item:hover {
-  background-color: #eeeef5;
+  background-color: #accecc;
   transition: 0.3s;
 }
 
 .card-item:click {
-  background-color: #d2d2ea;
+  background-color: #accecc;
 }
 
 span {

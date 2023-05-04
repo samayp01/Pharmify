@@ -5,8 +5,8 @@
       <p class="subtitle">Seamlessly manage and track medical prescriptions with ease.</p>
       <div class="divider"><hr /></div>
       <div class="buttons">
-        <router-link to="/login" class="button">Login</router-link>
-        <router-link to="/register" class="button">Register</router-link>
+        <div v-on:click="toLogin" class="button">Login</div>
+        <div v-on:click="toRegister" class="button">Register</div>
       </div>
     </main>
   </div>
@@ -19,6 +19,14 @@ export default {
   name: 'LandingPage',
   components: {
     TitleBox,
+  },
+  methods: {
+    toLogin() {
+      this.$router.push('/login');
+    },
+    toRegister() {
+      this.$router.push('/register');
+    }
   }
 };
 </script>
@@ -68,6 +76,8 @@ export default {
   margin: 0 10px;
   font-size: 16px;
   transition: background-color 0.3s;
+  cursor: pointer;
+  user-select: none;
 }
 
 .button:hover {

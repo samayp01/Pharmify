@@ -117,13 +117,6 @@ router.get('/currentuser', (req, res) => {
     return res.status(401).send('Unauthorized');
   }
 
-  const decodedUser = auth.getUserFromToken(token);  // user obj according to token
-  const allegedUser = req.body.user;                 // user obj according to request body
-
-  if(!decodedUser || !allegedUser || decodedUser.username !== allegedUser.username) {
-    return res.status(401).send('Unauthorized');
-  }
-
   res.status(200).send(user);
 });
 

@@ -54,8 +54,6 @@ export default {
     }
   },
   mounted() {
-    console.log('Loading caretakers.');
-
     axios.get(`${ENDPOINT}/users`)
     .then(response => {
       if(response.status === 200) {
@@ -64,7 +62,6 @@ export default {
         .then(response => {
           if(response.status === 200) {
             this.caretakers = response.data;
-            console.log(response.data);
           } else {
             console.log('Error loading caretakers.');
           }        

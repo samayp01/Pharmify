@@ -29,7 +29,7 @@ export default {
           console.log('Logged out.');
           localStorage.removeItem('token');
           localStorage.removeItem('user');
-          this.$router.push('/login');
+          this.$router.push('/');
         } else {
           console.log('Error logging out.');
         }
@@ -51,7 +51,6 @@ export default {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-align: center;
-  padding: 20px;
   margin-bottom: 25px;
   display: flex;
   justify-content: space-between;
@@ -59,8 +58,7 @@ export default {
 
 .home {
   padding: 7px;
-  font-size: 30px;
-  box-shadow: 0px 0px 5px rgb(101, 152, 140);
+  font-size: 35px;
   border-radius: 10px;
   transition: 0.3s;
   order: 1;
@@ -70,8 +68,7 @@ export default {
 
 .settings {
   padding: 7px;
-  font-size: 30px;
-  box-shadow: 0px 0px 5px rgb(101, 152, 140);
+  font-size: 35px;
   border-radius: 10px;
   transition: 0.3s;
   cursor: pointer;
@@ -79,14 +76,13 @@ export default {
 }
 
 .home:hover, .logout:hover, .settings:hover {
-  background-color: rgb(164, 244, 226);
-  box-shadow: 0px 0px 5px rgb(101, 152, 140);
+  /* background-color: rgb(164, 244, 226); */
+  box-shadow: 2px 3px 5px rgb(54, 84, 77, 0.8);
 }
 
 .logout {
-  padding: 16px;
+  padding: 21px;
   margin: 0;
-  box-shadow: 0px 0px 5px rgb(101, 152, 140);
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -102,8 +98,24 @@ export default {
   order: 2;
 }
 
-.settings, .logout {
-  margin-left: 15px;
+/* Styles for screens wider than 1001px */
+@media (min-width: 1001px) {
+  .header {
+    padding: 20px;
+  }
+  .settings, .logout {
+    margin-left: 15px;
+  }
+}
+
+/* Styles for screens narrower than 1000px */
+@media (max-width: 1000px) {
+  .header {
+    padding: 5px;
+  }
+  .settings, .logout {
+    margin-left: 0px;
+  }
 }
 
 .logout img {

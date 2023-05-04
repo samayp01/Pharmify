@@ -55,3 +55,14 @@ self.addEventListener('message', event => {
     self.skipWaiting();
   }
 });
+
+self.addEventListener('push', event => {
+  const data = event.data.json();
+  const options = {
+    title: data.title,
+    body: data.body,
+    icon: '/img/pill.png',
+  };
+
+  event.waitUntil(self.registration.showNotification(options.title, options));
+});

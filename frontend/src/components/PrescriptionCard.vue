@@ -47,7 +47,7 @@ export default {
 
 <style>
 .prescription-card {
-  padding: 5px;
+  padding: 10px;
   border-radius: 10px;
   margin-bottom: 20px;
   background-color: #cce4e4;

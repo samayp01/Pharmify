@@ -37,8 +37,6 @@ export default {
     }
   },
   mounted() {
-    console.log('Loading prescription.');
-
     axios.get(`/api/prescriptions/id/${this.prescription}`)
     .then(response => {
       if(response.status === 200) {
@@ -90,18 +88,23 @@ export default {
 </script>
 
 <style scoped>
-h1 {
-  margin-bottom: 30px;
-}
 .container {
   display: flex;
   flex-direction: column;
   padding: 30px;
   border-radius: 10px;
+  font-size: 20px;
   margin: auto;
   background-color: #d9e9e9;
   max-width: 90%;
   box-shadow: 0px 6px 9px rgba(0, 0, 0, 0.15);
+}
+h1 {
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+button {
+  margin-top: 50px;
 }
 .error {
   border: 1px solid black;

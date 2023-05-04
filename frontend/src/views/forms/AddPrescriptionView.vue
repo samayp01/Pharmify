@@ -102,7 +102,6 @@ export default {
     }
   },
   mounted() {
-    console.log('Loading medications.');
     axios.get(`${ENDPOINT}/prescriptions/medications`)
     .then(response => {
       if(response.status === 200) {
