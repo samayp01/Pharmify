@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page">
     <NavSection />
     <div class="tab-menu">
       <button id="my-prescriptions-btn" class="tab-item" @click="setActiveTab('my-prescriptions')" 
@@ -58,7 +58,6 @@ export default {
   mounted() {
     this.setActiveTab('my-prescriptions');
 
-    console.log('Loading prescriptions.');
     axios.get(`${ENDPOINT}/prescriptions`)
       .then(response => {
         if(response.status === 200) {
@@ -142,7 +141,6 @@ export default {
 </script>
 
 <style scoped>
-
 .tab-menu {
   background-color: #6e9f9f;
   margin: auto;

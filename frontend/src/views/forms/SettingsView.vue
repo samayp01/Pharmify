@@ -3,7 +3,7 @@
   <div class="container col-lg-3 text-center">
     <h1>Settings</h1>
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" v-model="subscribed" @change="subscribe(subscribed)">
+      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" v-model="subscribed" @change="setSubscribe(subscribed)">
       <label class="form-check-label" for="flexCheckDefault">
         Enable push notifications
       </label>
@@ -16,76 +16,76 @@
 import axios from 'axios';
 import NavSection from '../../components/NavSection.vue'
 
-const ENDPOINT = '/api';
+const ENDPOINT = '/api/users';
 
 export default {
   name: 'SettingsView',
   components: {
     NavSection
   },
+  mounted() {
+    this.requestPermission();
+  },
   data() {
     return {
-      subscribed: false
+      subscribed: Notification.permission === 'granted'
     }
   },
   methods: {
-    urlB64ToUint8Array(base64String) {
-      const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
-      const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
-      const rawData = window.atob(base64);
-      const outputArray = new Uint8Array(rawData.length);
-
-      for (let i = 0; i < rawData.length; i += 1) {
-        outputArray[i] = rawData.charCodeAt(i);
+    requestPermission() {
+      if (Notification.permission !== 'granted') {
+        Notification.requestPermission().then(permission => {
+          if (permission === 'granted') {
+            this.subscribeToNotifications();
+            this.subscribed = true;
+          } else {
+            console.warn('Permission was denied for notifications');
+            this.subscribed = false;
+          }
+        });
+      } else {
+        this.subscribeToNotifications();
       }
-
-      return outputArray;
     },
-
-    async getServiceWorkerSubscription() {
-      return navigator.serviceWorker.register('/sw.js').then((registration) => {
-        console.log('Service worker registered, waiting...');
-        const serviceWorker = registration.installing || registration.waiting || registration.active;
-        let whenRegistrationActive = Promise.resolve(registration);
-        if (!registration.active || registration.active.state !== 'activated') {
-          whenRegistrationActive = new Promise(resolve => {
-            serviceWorker.addEventListener('statechange', e => {
-              if (e.target.state === 'activated') {
-                resolve(registration);
-              }
+    subscribeToNotifications() {
+      navigator.serviceWorker.ready.then(swRegistration => {
+        swRegistration.pushManager.subscribe(
+            { 
+              userVisibleOnly: true,
+              applicationServerKey: process.env.VUE_APP_VAPID_PUBLIC_KEY 
             })
+          .then(subscription => {
+            console.log('Subscribed to notifications');
+            axios.post(`${ENDPOINT}/subscribe`, { subscription: subscription })
+              .then(response => console.log(response))
+              .catch(error => console.log(error));
           })
-        }
-        return whenRegistrationActive;
+          .catch(error => console.warn('Failed to subscribe to notifications', error));
       });
     },
-
-    subscribe(subscribed) {
-      // https://www.attheminute.com/us/article/sending-a-web-push-notification-tutorial
-      const publicKey = this.urlB64ToUint8Array(process.env.VUE_APP_VAPID_PUBLIC);
-      if (subscribed && 'serviceWorker' in navigator && 'PushManager' in window) {
-        this.getServiceWorkerSubscription().then(registration => {
-          console.log('Service worker active');
-          const subscribeOptions = {
-            userVisibleOnly: true,
-            applicationServerKey: publicKey
-          };
-          return registration.pushManager.subscribe(subscribeOptions);
-        }).then(subscription => {
-          axios.post(`${ENDPOINT}/users/subscribe`, {
-            subscription
-          }).then(response => {
-            if(response.status === 200) {
-              console.log('Posted subscription');
-            } else {
-              console.log('Error posting subscription');
-            }
-          }).catch(error => {
-            console.log(error);
-          });
-        });
+    unsubscribeFromNotifications() {
+      navigator.serviceWorker.ready.then(swRegistration => {
+        swRegistration.pushManager.getSubscription().then(subscription => {
+          if(subscription) {
+            subscription.unsubscribe()
+            .then(() => {
+              console.log('Unsubscribed from notifications');
+              axios.post(`${ENDPOINT}/unsubscribe`, { subscription: subscription })
+                .then(response => console.log(response))
+                .catch(error => console.log(error));
+            })
+            .catch(error => console.warn('Failed to unsubscribe from notifications', error));
+          }
+        })
+      });
+    },
+    setSubscribe(subscribed) {
+      if(subscribed) {
+        this.subscribeToNotifications();
+      } else {
+        this.unsubscribeFromNotifications();
       }
-    }
+    },
   }
 }
 </script>

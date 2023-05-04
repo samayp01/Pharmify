@@ -37,8 +37,6 @@ export default {
     }
   },
   mounted() {
-    console.log('Loading prescription.');
-
     axios.get(`/api/prescriptions/id/${this.prescription}`)
     .then(response => {
       if(response.status === 200) {

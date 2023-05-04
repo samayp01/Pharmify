@@ -1,3 +1,4 @@
+-- User table
 CREATE TABLE IF NOT EXISTS `user` (
     `usr_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `usr_username` VARCHAR(30) NOT NULL,
@@ -9,6 +10,7 @@ CREATE TABLE IF NOT EXISTS `user` (
     PRIMARY KEY (`usr_id`) 
 ) DEFAULT CHARSET=utf8;
 
+-- Caretaker table
 CREATE TABLE IF NOT EXISTS `caretaker` (
     `ct_usr_id` INT UNSIGNED NOT NULL,
     `ct_usr_id_care` INT UNSIGNED NOT NULL,
@@ -17,12 +19,14 @@ CREATE TABLE IF NOT EXISTS `caretaker` (
     FOREIGN KEY (`ct_usr_id_care`) REFERENCES `user` (`usr_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) DEFAULT CHARSET=utf8;
 
+-- Medicine table
 CREATE TABLE IF NOT EXISTS `medicine` (
     `med_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `med_name` VARCHAR(50) NOT NULL,
     PRIMARY KEY (`med_id`)
 ) DEFAULT CHARSET=utf8;
 
+-- Prescription table
 CREATE TABLE IF NOT EXISTS `prescription` (
     `pre_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `pre_usr_id` INT UNSIGNED NOT NULL,
