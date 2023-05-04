@@ -2,7 +2,7 @@
   <div class="landing-page">
     <TitleBox />
     <main class="main">
-      <p class="subtitle">Seamlessly manage and track medical prescriptions with ease.</p>
+      <p class="subtitle">Seamlessly manage your medical prescriptions with ease.</p>
       <div class="divider"><hr /></div>
       <div class="buttons">
         <div v-on:click="toLogin" class="button">Login</div>
