@@ -94,7 +94,6 @@ router.post("/subscribe", (req, res) => {
   userDb.getSubscription(req.usr_id).then((subscription) => {
     if (subscription) {
       userDb.putSubscription(req.usr_id, JSON.stringify(req.body["subscription"])).then(() => {
-        console.log(req.body["subscription"]);
         res.status(200).send('Subscription added');
     
         webpush.sendNotification(req.body["subscription"], "You are subscribed to notifications!");
@@ -103,7 +102,6 @@ router.post("/subscribe", (req, res) => {
       })
     } else {
       userDb.postSubscription(req.usr_id, JSON.stringify(req.body["subscription"])).then(() => {
-        console.log(req.body["subscription"]);
         res.status(200).send('Subscription added');
     
         webpush.sendNotification(req.body["subscription"], "You are subscribed to notifications!");

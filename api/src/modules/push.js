@@ -6,15 +6,15 @@ const privateKey = process.env.VAPID_PRIVATE;
 
 // configure VAPID
 webpush.setVapidDetails(
-  `mailto: ${email}`,
+  `mailto:${email}`,
   publicKey,
   privateKey
 );
 
 // Function to send a push notification
-async function notifyNow(subscription, payload) {
+async function notify(subscription, payload) {
   try {
-    const response = await webpush.sendNotification(subscription, JSON.stringify(payload));
+    const response = await webpush.sendNotification(subscription, JSON.stringify(payload)).catch(console.log);
     console.log('Push notification sent successfully:', response);
   } catch (error) {
     console.error('Error sending push notification:', error);
@@ -24,9 +24,9 @@ async function notifyNow(subscription, payload) {
 async function notifyAt(subscription, payload, date) {
   if(date < Date.now()) return;
   const delay = date - Date.now();
-  setTimeout(() => notifyNow(subscription, payload), delay);
+  setTimeout(() => notify(subscription, payload), delay);
 }
 
 module.exports = {
-  notifyNow, notifyAt
+  notify, notifyAt
 };

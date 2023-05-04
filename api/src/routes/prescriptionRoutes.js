@@ -85,7 +85,7 @@ router.get("/caretakers", (req, res) => {
 router.post("/", (req, res) => {
   prescriptionDb.getMedicineByName(req.body.name).then((medicine) => {
     if (medicine) {
-      newPrescription = {
+      const newPrescription = {
         'pre_usr_id': req.usr_id,
         'pre_med_id': medicine.med_id,
         'pre_dosage': req.body.dosage,
@@ -97,15 +97,16 @@ router.post("/", (req, res) => {
       };
       console.log(newPrescription);
       prescriptionDb.postPrescription(newPrescription).then(() => {
-        const nextDose = new Date((new Date(req.body.start_date).getTime()) + (req.body.frequency * 60 * 60 * 1000));
+        const nextDose = new Date((Date.now().getTime()) + (req.body.frequency * 60 * 60 * 1000));
+        const dayAfterEnd = new Date((new Date(req.body.end_date).getTime()) + (24 * 60 * 60 * 1000));
 
-        if(nextDose < Date.now()) {
+        if(nextDose < dayAfterEnd) {
           userDb.getSubscription(req.usr_id).then((subscription) => {
             if (subscription) {
-              notifyAt(subscription, {
+              notifyAt(subscription, JSON.stringify({
                 title: 'Med Reminder 🕒',
                 body: `It's time to take your ${req.body.dosage} of ${req.body.name}.`
-              }, nextDose);
+              }), nextDose);
             }
           })
         }
@@ -123,8 +124,6 @@ router.post("/", (req, res) => {
 // For last dose
 // PUT /prescriptions/{prescriptionId}
 router.put("/:prescriptionId", (req, res) => {
-  console.log(req.body.pre_last_dose);
-  console.log(req.params.prescriptionId);
   prescriptionDb.getPrescriptionById(req.params.prescriptionId).then((prescription) => {
 
     if (prescription) {
@@ -132,14 +131,15 @@ router.put("/:prescriptionId", (req, res) => {
         if (allowed) {
           prescriptionDb.updatePrescriptionLastDose(req.params.prescriptionId, req.body.pre_last_dose).then(() => {
             const nextDose = new Date((new Date(req.body.pre_last_dose).getTime()) + (req.body.frequency * 60 * 60 * 1000));
+            const dayAfterEnd = new Date((new Date(req.body.end_date).getTime()) + (24 * 60 * 60 * 1000));
 
-            if(nextDose < Date.now()) {
+            if(nextDose < dayAfterEnd) {
               userDb.getSubscription(req.usr_id).then((subscription) => {
                 if (subscription) {
-                  notifyAt(subscription, {
+                  notifyAt(subscription, JSON.stringify({
                     title: 'Med Reminder 🕒',
                     body: `It's time to take your ${req.body.dosage} of ${req.body.name}.`
-                  }, nextDose);
+                  }), nextDose);
                 }
               })
             }
