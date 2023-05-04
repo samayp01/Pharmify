@@ -22,8 +22,9 @@ async function notify(subscription, payload) {
 }
 
 async function notifyAt(subscription, payload, date) {
-  if(date < Date.now()) return;
-  const delay = date - Date.now();
+  const now = Date.now();
+  if(date < now) return;
+  const delay = date - now;
   setTimeout(() => notify(subscription, payload), delay);
 }
 
