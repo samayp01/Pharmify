@@ -10,12 +10,12 @@ export default {
   created() {
     if(navigator.serviceWorker) {
       navigator.serviceWorker.register('/sw.js')
-        .then(registration => {
-          if (registration.installing) {
+        .then(register => {
+          if (register.installing) {
             console.log('Service worker installing');
-          } else if (registration.waiting) {
+          } else if (register.waiting) {
             console.log('Service worker installed');
-          } else if (registration.active) {
+          } else if (register.active) {
             console.log('Service worker active');
           }
         })
