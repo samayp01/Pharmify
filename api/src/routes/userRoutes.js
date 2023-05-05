@@ -98,7 +98,7 @@ router.post("/subscribe", (req, res) => {
     
         webpush.sendNotification(req.body["subscription"], "You are subscribed to notifications!");
       }).catch((error) => {
-        res.status(500).send(error);
+        res.status(500).send('Failed to update subscription');
       })
     } else {
       userDb.postSubscription(req.usr_id, JSON.stringify(req.body["subscription"])).then(() => {
@@ -106,7 +106,7 @@ router.post("/subscribe", (req, res) => {
     
         webpush.sendNotification(req.body["subscription"], "You are subscribed to notifications!");
       }).catch((error) => {
-        res.status(500).send(error);
+        res.status(500).send('Failed to add subscription');
       })
     }
   })
