@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="app.png" alt="Pharmify Logo" width="600" height="210" style="border-radius:10px">
+  <img src="logo.png" alt="Pharmify Logo" width="600" height="210" style="border-radius:10px">
 
 ---
 ## Table of Contents
