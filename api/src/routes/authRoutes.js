@@ -112,7 +112,7 @@ router.post('/register', async (req, res) => {
 
   userDb.postUser(user);
 
-  res.status(200).send(`Successfully registered as ${req.body.username}`);
+  res.status(200).send('Successfully registered new user');
 });
 
 
