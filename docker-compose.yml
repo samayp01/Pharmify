@@ -14,20 +14,14 @@ services:
     restart: unless-stopped
     volumes:
       - ./api/src:/app/src
-    environment:
-      - PORT=80
     env_file:
       - .env
 
   frontend:
     build: ./frontend
     restart: unless-stopped
-    ports:
-      - "80:80"
     volumes: 
       - ./frontend/src:/app/src
-    environment:
-      - PORT=80
     env_file:
       - .env
 
