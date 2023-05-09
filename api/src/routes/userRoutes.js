@@ -95,16 +95,26 @@ router.post("/subscribe", (req, res) => {
     if (subscription) {
       userDb.putSubscription(req.usr_id, JSON.stringify(req.body["subscription"])).then(() => {
         res.status(200).send('Subscription added');
+
+        const payload = {
+          title: "Pharmify Alert 🚨",
+          body: "You will now receive notifications for your prescriptions from Pharmify."
+        };
     
-        webpush.sendNotification(req.body["subscription"], "You are subscribed to notifications!");
+        webpush.sendNotification(req.body["subscription"], payload);
       }).catch((error) => {
         res.status(500).send('Failed to update subscription');
       })
     } else {
       userDb.postSubscription(req.usr_id, JSON.stringify(req.body["subscription"])).then(() => {
         res.status(200).send('Subscription added');
+
+        const payload = {
+          title: "Pharmify Alert 🚨",
+          body: "You will now receive notifications for your prescriptions from Pharmify."
+        };
     
-        webpush.sendNotification(req.body["subscription"], "You are subscribed to notifications!");
+        webpush.sendNotification(req.body["subscription"], payload);
       }).catch((error) => {
         res.status(500).send('Failed to add subscription');
       })
