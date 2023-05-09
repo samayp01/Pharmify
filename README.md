@@ -1,5 +1,6 @@
 <p align="center">
   <img src="logo.png" alt="Pharmify Logo" width="600" height="210" style="border-radius:10px">
+</p>
 
 ---
 ## Table of Contents
@@ -12,7 +13,7 @@
 
 ---
 ## Overview
-Pharmify is a web application that enables users to manage and receive notifications for their medical prescriptions. The application also allows users to share their prescriptions with other users on the app serving as their caretakers. The application is built using a Vue frontend, NodeJS API, and a MariaDB database. These components of the application are containerized and deployed with Docker.
+[🔗 Pharmify](https://pharmify.azurewebsites.net/) is a web application that enables users to manage and receive notifications for their medical prescriptions. The application also allows users to share their prescriptions with other users on the app serving as their caretakers. The application is built using a Vue frontend, NodeJS API, and a MariaDB database. These components of the application are containerized and deployed with Docker.
 
 
 ## Installation
