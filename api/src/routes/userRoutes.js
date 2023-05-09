@@ -101,7 +101,7 @@ router.post("/subscribe", (req, res) => {
           body: "You will now receive notifications for your prescriptions from Pharmify."
         };
     
-        webpush.sendNotification(req.body["subscription"], payload);
+        webpush.sendNotification(req.body["subscription"], JSON.stringify(payload));
       }).catch((error) => {
         res.status(500).send('Failed to update subscription');
       })
@@ -114,7 +114,7 @@ router.post("/subscribe", (req, res) => {
           body: "You will now receive notifications for your prescriptions from Pharmify."
         };
     
-        webpush.sendNotification(req.body["subscription"], payload);
+        webpush.sendNotification(req.body["subscription"], JSON.stringify(payload));
       }).catch((error) => {
         res.status(500).send('Failed to add subscription');
       })
